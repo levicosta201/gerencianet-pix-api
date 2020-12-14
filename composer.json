@@ -1,0 +1,21 @@
+{
+    "name": "levicosta201/gerencianet-pix-sdk",
+    "description": "Package to connect with PIX Api from Gerencianet",
+    "type": "library",
+    "license": "mit",
+    "authors": [
+        {
+            "name": "Levi Costa",
+            "email": "levi.costa1@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.3.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gerencianet\\PIX\\": "src/"
+        }
+    }
+}
