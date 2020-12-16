@@ -60,15 +60,17 @@ Após a autenticação você já possui o necessário para realizar uma cobranç
 ```php
 $pixCharge = new Gerencianet\Pix\Charge(env('GERENCIA_NET_ENVIROMENT', 'homolog'));
 $pixCharge = $pixCharge->setCepDebtor('39900000')
-    ->setCityDebtor('Almenara')
+    ->setCityDebtor('CIDADE_DE_QUEM_PAGA')
     ->setFreeValue(false)
-    ->setNameDebtor('Levi Costa')
-    ->setCpfCnpjDebtor('12259415636')
-    ->setValue(0.01)
+    ->setNameDebtor('Nome de quem paga')
+    ->setCpfCnpjDebtor('CPF_DEQUEM_PAGA')
+    ->setValue(10.0)
     ->setType('estatico')
     ->setDescriptionService('Teste de descrição')
+    //Valo máximo deve ser 256px
     ->setDimenQrCoode(256)
     ->setUniquePay(true)
+    //Define em quantos MS o QR Code Irá expirar
     ->setExpiresTimeQrCode(3600)
     ->setKeyPix($authData['accessToken']);
 return $pixCharge->create();
