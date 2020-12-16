@@ -372,6 +372,4 @@ class Charge
         $this->uniquePay = $uniquePay;
         return $this;
     }
-
-
 }
