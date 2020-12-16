@@ -46,8 +46,8 @@ class Connect
         $response = ProccessCurl::runCurl(Constants::URL_AUTH_PROD, $this->getClientId(), $this->getClientSecret(), $this->getCertFile());
         return [
             'data' => [
-                'accessToken' => $response->data->access_token,
-                'tokenType' => $response->data->token_type,
+                'accessToken' => $response['data']->access_token,
+                'tokenType' => $response['data']->token_type,
             ]
         ];
     }
