@@ -43,7 +43,7 @@ class Connect
      */
     public function proccess(): array
     {
-        $response = ProccessCurl::runCurl(Constants::URL_AUTH_PROD, $this->getClientId(), $this->getClientSecret(), $this->getCertFile());
+        $response = ProccessCurl::runCurl($this->environment == 'production' ? Constants::URL_AUTH_PROD : Constants::URL_AUTH_SANDBOX, $this->getClientId(), $this->getClientSecret(), $this->getCertFile());
         return [
             'data' => [
                 'accessToken' => $response['data']->access_token,
