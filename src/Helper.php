@@ -105,6 +105,63 @@ class Helper
         ];
     }
 
+    public static function qrCodeGenerator($payloadBrCode, $tamanhoQrCode)
+    {
+        /*
+       * Esta rotina consome uma api da Gerencianet que gera o QR Code
+       *
+       * Link para Repositório da API: https://github.com/ceciliadeveza/gerarqrcodepix
+       */
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://gerarqrcodepix.com.br/api/v1?brcode=$payloadBrCode&tamanho=$tamanhoQrCode",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
+
+        $imagemQrCode = curl_exec($curl);
+
+        curl_close($curl);
+
+        return base64_encode($imagemQrCode);
+    }
+
+    public static function calculaChecksum($str)
+    {
+        /*
+       * Esta função auxiliar calcula o CRC-16/CCITT-FALSE
+       */
+
+        function charCodeAt($str, $i)
+        {
+            return ord(substr($str, $i, 1));
+        }
+
+        $crc = 0xFFFF;
+        $strlen = strlen($str);
+        for ($c = 0; $c < $strlen; $c++) {
+            $crc ^= charCodeAt($str, $c) << 8;
+            for ($i = 0; $i < 8; $i++) {
+                if ($crc & 0x8000) {
+                    $crc = ($crc << 1) ^ 0x1021;
+                } else {
+                    $crc = $crc << 1;
+                }
+            }
+        }
+        $hex = $crc & 0xFFFF;
+        $hex = dechex($hex);
+        $hex = strtoupper($hex);
+
+        return $hex;
+    }
+
     private static function completeInput($value)
     {
         /*

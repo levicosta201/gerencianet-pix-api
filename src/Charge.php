@@ -106,7 +106,7 @@ class Charge
             $pixUrlCob = Constants::URL_PIX_COB_SANDBOX . "/" . $randonIdTransaction;
         }
 
-        $body = Helper::mountBody($this->getKeyPix(), $this->getNameDebtor(), $this->getCpfCnpjDebtor(), $this->getValue(), $this->getDescriptionService());
+        $body = Helper::mountBody($this->getKeyPix(), $this->getCpfCnpjDebtor(), $this->getNameDebtor(), $this->getValue(), $this->getDescriptionService(), $this->getExpiresTimeQrCode());
 
         if ($this->type === "dinamico") {
             $dadosPix = ProccessCurl::runCurlCharge($pixUrlCob, $this->getCertFile(), $this->getAccessToken(), $body, $this->getType(), 'PUT');
