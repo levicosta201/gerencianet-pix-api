@@ -72,7 +72,8 @@ $pixCharge = $pixCharge->setCepDebtor('39900000')
     ->setUniquePay(true)
     //Define em quantos MS o QR Code Irá expirar
     ->setExpiresTimeQrCode(3600)
-    ->setKeyPix($authData['accessToken']);
+    ->setAccessToken($authData['accessToken'])
+    ->setKeyPix('SUA_CHAVE_PIX_GN');
 return $pixCharge->create();
 ```
 
