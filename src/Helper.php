@@ -101,7 +101,7 @@ class Helper
             'success' => 'true',
             'barCode' => $payloadBrCode,
             'qrCodeBase64' => $imageString,
-
+            'pixData' => $dadosPix,
         ];
     }
 
