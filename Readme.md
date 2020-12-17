@@ -92,6 +92,15 @@ Parâmetros
 | setKeyPix() | String | Deverá informar a sua chave PIX cadastrada no GN sem pontos e sem traços | 
 | create() | Class | Executa a cobrança e retorna o array com os dados da cobrança | 
 
+Caso tenha sucesso na execução acima você deverá receber o seguinte retorno em forma de array
+```
+array:3 [▼
+  "success" => "true"
+  "barCode" => "CODIGO_DE_BARRAS_DO_QR_CODE"
+  "qrCodeBase64" => "BASE_64_DO_QR_CODE"
+]
+```
+
 ### Todos
 
  - Lis PIX
