@@ -92,10 +92,25 @@ Parâmetros
 
 Caso tenha sucesso na execução acima você deverá receber o seguinte retorno em forma de array
 ```
-array:3 [▼
+array:4 [▼
   "success" => "true"
-  "barCode" => "CODIGO_DE_BARRAS_DO_QR_CODE"
-  "qrCodeBase64" => "BASE_64_DO_QR_CODE"
+  "barCode" => "CODIGO_DE_BARRAS"
+  "qrCodeBase64" => "iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAABlB"
+  "pixData" => array:7 [▼
+    "calendario" => array:1 [▼
+      "expiracao" => "3600"
+    ]
+    "devedor" => array:2 [▼
+      "cpf" => "CPF_PAGADOR"
+      "nome" => "NOME_PAGADOR"
+    ]
+    "valor" => array:1 [▼
+      "original" => 0.01
+    ]
+    "chave" => "28656307000164"
+    "solicitacaoPagador" => "Teste de descrição"
+    "txid" => "5m6KHjHtDP2a 5Yva30gWjMrA"
+  ]
 ]
 ```
 
