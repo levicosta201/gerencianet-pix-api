@@ -58,8 +58,8 @@ A solicitação acima irá retornar um array com os seguintes dados:
 ### Cobrança:
 Após a autenticação você já possui o necessário para realizar uma cobrança, que poderá ser realizada da seguinte maneira:
 ```php
-$pixCharge = new Gerencianet\Pix\Charge(env('GERENCIA_NET_ENVIROMENT', 'homolog'));
-$pixCharge = $pixCharge->setCepDebtor('39900000')
+$pixCharge = new Gerencianet\Pix\Charge('production');
+$pixCharge = $pixCharge->setCepDebtor('12300999')
     ->setCityDebtor('CIDADE_DE_QUEM_PAGA')
     ->setFreeValue(false)
     ->setNameDebtor('Nome de quem paga')
@@ -67,15 +67,30 @@ $pixCharge = $pixCharge->setCepDebtor('39900000')
     ->setValue(10.0)
     ->setType('estatico')
     ->setDescriptionService('Teste de descrição')
-    //Valo máximo deve ser 256px
     ->setDimenQrCoode(256)
     ->setUniquePay(true)
-    //Define em quantos MS o QR Code Irá expirar
     ->setExpiresTimeQrCode(3600)
     ->setAccessToken($authData['accessToken'])
     ->setKeyPix('SUA_CHAVE_PIX_GN');
 return $pixCharge->create();
 ```
+Parâmetros
+
+| Função | Tipo | Descrição |
+| ----- | ---- | --------- |
+| setNameDebtor() | String | Deverá ser informado o nome de quem está REALIZANDO O PAGAMENTO do Pix |
+| setCpfCnpjDebtor() | String | Deverá ser informado o CPF/CNPJ de quem está REALIZANDO O PAGAMENTO do Pix. Sem pontos e sem traços |
+| setCepDebtor() | String | Deverá ser informado o CEP de quem está REALIZANDO O PAGAMENTO do Pix |
+| setCityDebtor() | String | Deverá ser informado a Cidade de quem está REALIZANDO O PAGAMENTO do Pix |
+| setFreeValue() | Bool | Deverá ser informado se o valor do pagamento é livre ou não | 
+| setValue() | Float | Deverá ser informado o valor da cobrança do Pix | 
+| setType() | Bool | Deverá ser informado se o QR Code será dinâmico ou estático | 
+| setDescriptionService() | String | Deverá ser informado a descrição da cobrança | 
+| setDimenQrCoode() | Integer | Deverá ser informado o tamanho da imagem do QR Code, o tamanho máximo é 256px | 
+| setUniquePay() | Bool | Deverá ser informado se o QR Code poderá ser reutilizado |
+| setExpiresTimeQrCode() | Integer | Deverá ser informado o tempo de expiração do QR Code em Milisegundos |
+| setKeyPix() | String | Deverá informar a sua chave PIX cadastrada no GN sem pontos e sem traços | 
+| create() | Class | Executa a cobrança e retorna o array com os dados da cobrança | 
 
 ### Todos
 
