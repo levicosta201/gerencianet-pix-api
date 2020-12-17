@@ -1,8 +1,6 @@
 # Gerencianet PIX SDK
 
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
-
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=develop)](https://travis-ci.org/joemccann/dillinger)
+[![Latest Stable Version](https://poser.pugx.org/levicosta201/gerencianet-pix-sdk/v)](//packagist.org/packages/levicosta201/gerencianet-pix-sdk) [![Total Downloads](https://poser.pugx.org/levicosta201/gerencianet-pix-sdk/downloads)](//packagist.org/packages/levicosta201/gerencianet-pix-sdk) [![Latest Unstable Version](https://poser.pugx.org/levicosta201/gerencianet-pix-sdk/v/unstable)](//packagist.org/packages/levicosta201/gerencianet-pix-sdk) [![License](https://poser.pugx.org/levicosta201/gerencianet-pix-sdk/license)](//packagist.org/packages/levicosta201/gerencianet-pix-sdk)
 
 Essa API foi desenvolvida para facilitar a integração com a API do PIX da [Gerencianet][gerencianet-pix-link]. Você pode isntalar em qualquer projeto via composer.
 
