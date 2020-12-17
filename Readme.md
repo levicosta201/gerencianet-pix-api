@@ -91,7 +91,7 @@ Parâmetros
 | create() | Class | Executa a cobrança e retorna o array com os dados da cobrança | 
 
 Caso tenha sucesso na execução acima você deverá receber o seguinte retorno em forma de array
-```
+```php
 array:4 [▼
   "success" => "true"
   "barCode" => "CODIGO_DE_BARRAS"
