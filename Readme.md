@@ -114,6 +114,56 @@ array:4 [▼
 ]
 ```
 
+### Listagem de Pix:
+Após realizar a sua cobrança, você poderá listar e visualizar as cobranças recebidas, para isso faça da seguinte forma:
+
+```php
+$authData = PixService::auth();
+$issuedPix = new Issued();
+$issuedPix = $issuedPix->setInitDate("2020-12-09" . "T00:00:00Z")
+    ->setEndDate("2021-12-12" . "T00:00:00Z")
+    ->setCertFile(self::getCertFile())
+    ->setTokenType($authData['tokenType'])
+    ->setAccessToken($authData['accessToken']);
+
+return $issuedPix->list();
+```
+
+Parâmetros
+
+| Função | Tipo | Descrição |
+| ----- | ---- | --------- |
+| setInitDate() | DateTime | Deverá ser informado para saber qual o início do período da busca | 
+| setEndDate() | DateTime | Deverá ser informado para saber qual o fim do período da busca |
+| setFilterCpf() | String | Deverá ser informado para filtrar PIX por um CPF específico |
+| setFilterCnpj() | String | Deverá ser informado para filtrar PIX por um CNPJ específico |
+| setPaginate() | Integer | Deverá ser informado para filtrar a paginação da Lista do PIX |
+| setItensPerPage() | Integer | Deverá ser informado para o retorno de quantos PIX serão exibidos por página |
+
+Caso tenha sucesso na requisição você receberá o seguinte array:
+
+```php
+array:2 [▼
+  "parametros" => array:3 [▼
+    "inicio" => "2020-12-09T00:00:00Z"
+    "fim" => "2021-12-12T00:00:00Z"
+    "paginacao" => array:4 [▼
+      "paginaAtual" => 0
+      "itensPorPagina" => 100
+      "quantidadeDePaginas" => 1
+      "quantidadeTotalDeItens" => 1
+    ]
+  ]
+  "pix" => array:1 [▼
+    0 => array:4 [▼
+      "endToEndId" => "ABCDEFGR020121414PVXK1"
+      "valor" => "0.01"
+      "horario" => "2020-12-14T14:24:19.000Z"
+      "infoPagador" => "API"
+    ]
+  ]
+]
+```
 ### Todos
 
  - Lis PIX
