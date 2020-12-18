@@ -3,6 +3,7 @@
 namespace Gerencianet\Pix\Core;
 
 use Gerencianet\Pix\Connect;
+use Gerencianet\Pix\Helper;
 
 class ProccessCurl
 {
@@ -70,5 +71,32 @@ class ProccessCurl
         curl_close($curl);
 
         return $dadosPix;
+    }
+
+    public static function runCurlListIssued($pixUrl, $params, $certFile, $tokenType, $accessToken)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $pixUrl . '?' . $params,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_SSLCERT => $certFile,
+            CURLOPT_SSLCERTPASSWD => "",
+            CURLOPT_HTTPHEADER => array(
+                "authorization: $tokenType $accessToken"
+            ),
+        ));
+
+        $listPixRecebidos = json_decode(curl_exec($curl), true);
+        curl_close($curl);
+
+        Helper::checkFailure($listPixRecebidos);
+        return $listPixRecebidos;
     }
 }

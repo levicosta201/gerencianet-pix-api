@@ -4,6 +4,10 @@ namespace Gerencianet\Pix;
 
 class Helper
 {
+    /**
+     * @param string $type
+     * @return string
+     */
     public static function getTaxId(string $type): string
     {
         $quantity = ($type === "dinamico") ? 35 : 25;
@@ -18,6 +22,15 @@ class Helper
         return $token;
     }
 
+    /**
+     * @param $keyPix
+     * @param $cpf
+     * @param $nome
+     * @param $value
+     * @param $serviceDefine
+     * @param $expiresTime
+     * @return array
+     */
     public static function mountBody($keyPix, $cpf, $nome, $value, $serviceDefine, $expiresTime)
     {
         return [
@@ -46,6 +59,17 @@ class Helper
         ];
     }
 
+    /**
+     * @param $dadosPix
+     * @param $tipo
+     * @param $pagoUmaVez
+     * @param $nomeRecebedor
+     * @param $cidade
+     * @param $cep
+     * @param $valorLivre
+     * @param $tamanhoQrCode
+     * @return array
+     */
     public static function createBarCode($dadosPix, $tipo, $pagoUmaVez, $nomeRecebedor, $cidade, $cep, $valorLivre, $tamanhoQrCode)
     {
         // Rotina montará a variável que correspondente ao payload no padrão EMV-QRCPS-MPM
@@ -105,6 +129,11 @@ class Helper
         ];
     }
 
+    /**
+     * @param $payloadBrCode
+     * @param $tamanhoQrCode
+     * @return string
+     */
     public static function qrCodeGenerator($payloadBrCode, $tamanhoQrCode)
     {
         /*
@@ -132,6 +161,10 @@ class Helper
         return base64_encode($imagemQrCode);
     }
 
+    /**
+     * @param $str
+     * @return string
+     */
     public static function calculaChecksum($str)
     {
         /*
@@ -162,11 +195,72 @@ class Helper
         return $hex;
     }
 
+    /**
+     * @param $value
+     * @return string
+     */
     private static function completeInput($value)
     {
         /*
          * Esta função retorna a string preenchendo com 0 na esquerda, com tamanho o especificado, concatenando com o valor do campo
          */
         return str_pad(strlen($value), 2, '0', STR_PAD_LEFT) . $value;
+    }
+
+    public static function mountFilter($initDate, $endDate, $cpf, $cnpj, $paginate, $itensPerPage)
+    {
+        $filterArr = [];
+
+        //ex: "2020-12-12" . "T00:00:00Z"
+        $filterArr['inicio'] = $initDate;
+
+        //ex: "2020-12-12" . "T00:00:00Z"
+        $filterArr['fim'] = $endDate;
+
+        if (!empty($cpf)) {
+            $filterArr['cpf'] = $cpf;
+        }
+
+        if (!empty($cnpj)) {
+            $filterArr['cnpj'] = $cnpj;
+        }
+
+        if (!empty($paginate)) {
+            $filterArr['paginacao.paginaAtual'] = $paginate;
+        }
+
+        if (!empty($itensPerPage)) {
+            $filterArr['paginacao.itensPorPagina'] = $itensPerPage;
+        }
+
+        return self::mappedImplode('&', $filterArr, '=');
+    }
+
+    private static function mappedImplode($glue, $array, $symbol = '=')
+    {
+        return implode($glue, array_map(
+            function ($k, $v) use ($symbol) {
+                return $k . $symbol . $v;
+            },
+            array_keys($array),
+            array_values($array)
+        ));
+    }
+
+    public static function checkFailure($pixData)
+    {
+        $errors = [];
+
+        if (isset($pixData["mensagem"]) || !$pixData) {
+            $errors['message'] = !$pixData ? "Falha ao gerar a cobrança, tente novamente" : $pixData["mensagem"];
+            if (isset($pixData["erros"])) {
+                foreach ($pixData["erros"] as $key => $erro) {
+                    $errors[$key]['code'] = ($key + 1);
+                    $errors[$key]['path'] = $erro["caminho"];
+                    $errors[$key]['message'] = $erro["mensagem"];
+                }
+            }
+        }
+        return $errors;
     }
 }
