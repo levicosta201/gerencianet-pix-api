@@ -85,6 +85,8 @@ class Charge
      */
     private $keyPix;
 
+    private $tokenType;
+
     /**
      * Path of cert file Gerencianet (Only Path)
      * @var string
@@ -107,10 +109,9 @@ class Charge
         }
 
         $body = Helper::mountBody($this->getKeyPix(), $this->getCpfCnpjDebtor(), $this->getNameDebtor(), $this->getValue(), $this->getDescriptionService(), $this->getExpiresTimeQrCode());
-
-        if ($this->type === "dinamico") {
-            $dadosPix = ProccessCurl::runCurlCharge($pixUrlCob, $this->getCertFile(), $this->getAccessToken(), $body, $this->getType(), 'PUT');
-        } else { // Caso seja estático enviará as informações contidas no $body
+        if ($this->getType() === "dinamico") {
+            $dadosPix = ProccessCurl::runCurlCharge($pixUrlCob, $this->getCertFile(), $this->getAccessToken(), json_encode($body), $this->getTokenType(), 'PUT');
+        } else {
             $dadosPix = $body;
             $dadosPix["txid"] = $randonIdTransaction;
         }
@@ -163,7 +164,7 @@ class Charge
     /**
      * @param string $expiresTimeQrCode
      */
-    public function setExpiresTimeQrCode(string $expiresTimeQrCode): self
+    public function setExpiresTimeQrCode(int $expiresTimeQrCode): self
     {
         $this->expiresTimeQrCode = $expiresTimeQrCode;
         return $this;
@@ -370,6 +371,23 @@ class Charge
     public function setUniquePay(bool $uniquePay): self
     {
         $this->uniquePay = $uniquePay;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTokenType()
+    {
+        return $this->tokenType;
+    }
+
+    /**
+     * @param mixed $tokenType
+     */
+    public function setTokenType($tokenType): self
+    {
+        $this->tokenType = $tokenType;
         return $this;
     }
 }

@@ -35,14 +35,14 @@ class Helper
     {
         return [
             "calendario" => [
-                "expiracao" => $expiresTime // [opcional] Tempo de vida da cobrança, especificado em segundos a partir da data de criação. Caso não definido o padrão será de 86400 segundos ( 24 horas)
+                "expiracao" => (int) $expiresTime // [opcional] Tempo de vida da cobrança, especificado em segundos a partir da data de criação. Caso não definido o padrão será de 86400 segundos ( 24 horas)
             ],
             "devedor" => [
                 "cpf" => $cpf, // [opcional] CPF do usuário pagador.string /^\d{11}$/
                 "nome" => $nome // [opcional] Nome do usuário pagador. Máximo: 25 caracteres.
             ],
             "valor" => [
-                "original" => $value // [obrigatório] Valor original da cobrança.string \d{1,10}.\d{2} Obs: Para QR Code dinâmico, valor mínimo é de 0.01. Para QR Code poderá ser 0.00 (Ficará aberto para o pagador definir o valor)
+                "original" => (string) $value // [obrigatório] Valor original da cobrança.string \d{1,10}.\d{2} Obs: Para QR Code dinâmico, valor mínimo é de 0.01. Para QR Code poderá ser 0.00 (Ficará aberto para o pagador definir o valor)
             ],
             "chave" => $keyPix, // [obrigatório] Determina a chave Pix registrada no DICT que será utilizada para a cobrança.
             "solicitacaoPagador" => $serviceDefine, // [opcional] determina um texto a ser apresentado ao pagador para que ele possa digitar uma informação correlata, em formato livre, a ser enviada ao recebedor.
@@ -72,6 +72,7 @@ class Helper
      */
     public static function createBarCode($dadosPix, $tipo, $pagoUmaVez, $nomeRecebedor, $cidade, $cep, $valorLivre, $tamanhoQrCode)
     {
+        $dadosPix = $dadosPix['data'];
         // Rotina montará a variável que correspondente ao payload no padrão EMV-QRCPS-MPM
         $payload_format_indicator = '01';
         $point_of_initiation_method = '12';

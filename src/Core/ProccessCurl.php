@@ -45,10 +45,9 @@ class ProccessCurl
         ];
     }
 
-    public static function runCurlCharge($url, $certFile, $accessToken, $body, $type, $method)
+    public static function runCurlCharge($url, $certFile, $accessToken, $body, $tokenType, $method)
     {
         $curl = curl_init();
-
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
@@ -62,15 +61,25 @@ class ProccessCurl
             CURLOPT_SSLCERTPASSWD => "",
             CURLOPT_POSTFIELDS => $body,
             CURLOPT_HTTPHEADER => array(
-                "authorization: $type $accessToken",
+                "authorization: $tokenType $accessToken",
                 "Content-Type: application/json"
             ),
         ));
 
-        $dadosPix = json_decode(curl_exec($curl), true);
+        $response = curl_exec($curl);
+
+        if (curl_errno($curl)) {
+            return [
+                'success' => false,
+                'data' => curl_error($curl)
+            ];
+        }
         curl_close($curl);
 
-        return $dadosPix;
+        return [
+            'success' => true,
+            'data' => json_decode($response, true),
+        ];
     }
 
     public static function runCurlListIssued($pixUrl, $params, $certFile, $tokenType, $accessToken)
