@@ -109,6 +109,7 @@ class Charge
         }
 
         $body = Helper::mountBody($this->getKeyPix(), $this->getCpfCnpjDebtor(), $this->getNameDebtor(), $this->getValue(), $this->getDescriptionService(), $this->getExpiresTimeQrCode());
+
         if ($this->getType() === "dinamico") {
             $dadosPix = ProccessCurl::runCurlCharge($pixUrlCob, $this->getCertFile(), $this->getAccessToken(), json_encode($body), $this->getTokenType(), 'PUT');
         } else {

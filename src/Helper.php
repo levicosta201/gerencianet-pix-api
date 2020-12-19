@@ -72,7 +72,7 @@ class Helper
      */
     public static function createBarCode($dadosPix, $tipo, $pagoUmaVez, $nomeRecebedor, $cidade, $cep, $valorLivre, $tamanhoQrCode)
     {
-        $dadosPix = $dadosPix['data'];
+        $dadosPix = !empty($dadosPix['data']) ? $dadosPix['data'] : $dadosPix;
         // Rotina montará a variável que correspondente ao payload no padrão EMV-QRCPS-MPM
         $payload_format_indicator = '01';
         $point_of_initiation_method = '12';

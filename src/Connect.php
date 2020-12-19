@@ -3,6 +3,7 @@
 namespace Gerencianet\Pix;
 
 use Gerencianet\Pix\Core\ProccessCurl;
+use GuzzleHttp\Client;
 
 class Connect
 {
@@ -44,10 +45,23 @@ class Connect
     public function proccess(): array
     {
         $response = ProccessCurl::runCurl($this->environment == 'production' ? Constants::URL_AUTH_PROD : Constants::URL_AUTH_SANDBOX, $this->getClientId(), $this->getClientSecret(), $this->getCertFile());
+
+        if (!empty($response['success']) && $response['success'] == true) {
+            return [
+                'success' => true,
+                'data' => [
+                    'accessToken' => $response['data']->access_token,
+                    'tokenType' => $response['data']->token_type,
+                    'error' => false
+                ]
+            ];
+        }
         return [
+            'success' => true,
             'data' => [
-                'accessToken' => $response['data']->access_token,
-                'tokenType' => $response['data']->token_type,
+                'error' => [
+                    'message' => $response['data'],
+                ]
             ]
         ];
     }
