@@ -69,6 +69,7 @@ $pixCharge = $pixCharge->setCepDebtor('12300999')
     ->setUniquePay(true)
     ->setExpiresTimeQrCode(3600)
     ->setAccessToken($authData['accessToken'])
+    ->setTokenType('TIPO_TOKEN_RETORNO_API')
     ->setKeyPix('SUA_CHAVE_PIX_GN');
 return $pixCharge->create();
 ```
@@ -88,6 +89,7 @@ Parâmetros
 | setUniquePay() | Bool | Deverá ser informado se o QR Code poderá ser reutilizado |
 | setExpiresTimeQrCode() | Integer | Deverá ser informado o tempo de expiração do QR Code em Milisegundos |
 | setKeyPix() | String | Deverá informar a sua chave PIX cadastrada no GN sem pontos e sem traços | 
+| setTokenType() | String | Deverá informar o tipo de token que a API retorna | 
 | create() | Class | Executa a cobrança e retorna o array com os dados da cobrança | 
 
 Caso tenha sucesso na execução acima você deverá receber o seguinte retorno em forma de array
