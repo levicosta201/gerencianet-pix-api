@@ -70,8 +70,19 @@ class Helper
      * @param $tamanhoQrCode
      * @return array
      */
-    public static function createBarCode($dadosPix, $tipo, $pagoUmaVez, $nomeRecebedor, $cidade, $cep, $valorLivre, $tamanhoQrCode)
+    public static function createBarCode($dadosPix, $tipo, $pagoUmaVez, $nomeRecebedor, $cidade, $cep, $valorLivre, $tamanhoQrCode, $value)
     {
+        if (empty($dadosPix['data'])) {
+            return [
+                'success' => 'false',
+                'data' => [
+                    'errors' => [
+                        'message' => 'Falha ao comunicar com a api'
+                    ]
+                ],
+            ];
+        }
+
         $dadosPix = !empty($dadosPix['data']) ? $dadosPix['data'] : $dadosPix;
         // Rotina montará a variável que correspondente ao payload no padrão EMV-QRCPS-MPM
         $payload_format_indicator = '01';
@@ -100,7 +111,7 @@ class Helper
         $payloadBrCode .= '53' . self::completeInput($transaction_currency); // [obrigatório] Moeda, “986” = BRL: real brasileiro - ISO4217
 
         $payloadBrCode .= '54';  // [opcional] Valor da transação. Utilizar o . como separador decimal.
-        $payloadBrCode .= ($valorLivre === true) ? self::completeInput('0.00') : self::completeInput($dadosPix["valor"]["original"]) ;
+        $payloadBrCode .= self::completeInput($value);
 
         $payloadBrCode .= '58' . self::completeInput($country_code); // [obrigatório] “BR” – Código de país ISO3166-1 alpha 2
 

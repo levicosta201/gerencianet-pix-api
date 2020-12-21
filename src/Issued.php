@@ -56,6 +56,11 @@ class Issued
      */
     private $certFile;
 
+    /**
+     * @var
+     */
+    private $txId;
+
     public function list()
     {
         $mountFilter = Helper::mountFilter(
@@ -69,6 +74,11 @@ class Issued
 
         return ProccessCurl::runCurlListIssued(Constants::URL_PIX_PROD, $mountFilter, $this->getCertFile(), $this->getTokenType(), $this->getAccessToken());
 
+    }
+
+    public function getByTxId()
+    {
+        return ProccessCurl::runGetPixByTxId(Constants::URL_PIX_COB_PROD . '/1FPABuzlaR56UYw1qdcXuLqZe2jG5blUVWI', $this->getCertFile(), $this->getAccessToken(), $this->getTokenType());
     }
 
     /**
@@ -240,5 +250,24 @@ class Issued
         $this->certFile = $certFile;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTxId()
+    {
+        return $this->txId;
+    }
+
+    /**
+     * @param mixed $txId
+     */
+    public function setTxId($txId): self
+    {
+        $this->txId = $txId;
+        return $this;
+    }
+
+
 
 }

@@ -68,12 +68,7 @@ class ProccessCurl
 
         $response = curl_exec($curl);
 
-        if (curl_errno($curl)) {
-            return [
-                'success' => false,
-                'data' => curl_error($curl)
-            ];
-        }
+        Helper::checkFailure($response);
         curl_close($curl);
 
         return [
@@ -107,5 +102,79 @@ class ProccessCurl
 
         Helper::checkFailure($listPixRecebidos);
         return $listPixRecebidos;
+    }
+
+    public static function runGetPixByTxId($url, $certFile, $accessToken, $tokenType)
+    {
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_SSLCERT => $certFile,
+            CURLOPT_SSLCERTPASSWD => "",
+            CURLOPT_HTTPHEADER => array(
+                "authorization: $tokenType $accessToken"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        if (curl_errno($curl)) {
+            return [
+                'success' => false,
+                'data' => curl_error($curl)
+            ];
+        }
+        curl_close($curl);
+
+        return [
+            'success' => true,
+            'data' => json_decode($response, true),
+        ];
+    }
+
+    public static function runWebhook($url, $certFile, $webhookUrl, $accessToken, $tokenType)
+    {
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_SSLCERT => $certFile,
+            CURLOPT_SSLCERTPASSWD => "",
+            CURLOPT_POSTFIELDS => json_encode([
+                'webhookUrl' => $webhookUrl
+            ]),
+            CURLOPT_HTTPHEADER => array(
+                "authorization: $tokenType $accessToken",
+                "Content-Type: application/json"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        if (curl_errno($curl)) {
+            return [
+                'success' => false,
+                'data' => curl_error($curl)
+            ];
+        }
+        curl_close($curl);
+
+        return [
+            'success' => true,
+            'data' => json_decode($response, true),
+        ];
     }
 }

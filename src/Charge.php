@@ -116,8 +116,7 @@ class Charge
             $dadosPix = $body;
             $dadosPix["txid"] = $randonIdTransaction;
         }
-
-        return Helper::createBarCode($dadosPix, $this->getType(), $this->isUniquePay(), $this->getNameDebtor(), $this->getCityDebtor(), $this->getCepDebtor(), $this->isFreeValue(), $this->getDimenQrCoode());
+        return Helper::createBarCode($dadosPix, $this->getType(), $this->isUniquePay(), $this->getNameDebtor(), $this->getCityDebtor(), $this->getCepDebtor(), $this->isFreeValue(), $this->getDimenQrCoode(), $dadosPix['data']['valor']['original']);
     }
 
     /**
