@@ -42,7 +42,7 @@ class Helper
                 "nome" => $nome // [opcional] Nome do usuário pagador. Máximo: 25 caracteres.
             ],
             "valor" => [
-                "original" => (string) $value // [obrigatório] Valor original da cobrança.string \d{1,10}.\d{2} Obs: Para QR Code dinâmico, valor mínimo é de 0.01. Para QR Code poderá ser 0.00 (Ficará aberto para o pagador definir o valor)
+                "original" => number_format($value,2,'.',''), // [obrigatório] Valor original da cobrança.string \d{1,10}.\d{2} Obs: Para QR Code dinâmico, valor mínimo é de 0.01. Para QR Code poderá ser 0.00 (Ficará aberto para o pagador definir o valor)
             ],
             "chave" => $keyPix, // [obrigatório] Determina a chave Pix registrada no DICT que será utilizada para a cobrança.
             "solicitacaoPagador" => $serviceDefine, // [opcional] determina um texto a ser apresentado ao pagador para que ele possa digitar uma informação correlata, em formato livre, a ser enviada ao recebedor.

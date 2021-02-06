@@ -65,6 +65,7 @@ class ProccessCurl
                 "Content-Type: application/json"
             ),
         ));
+        curl_setopt($curl, CURLOPT_TIMEOUT_MS, 5000);
 
         $response = curl_exec($curl);
 
@@ -96,6 +97,7 @@ class ProccessCurl
                 "authorization: $tokenType $accessToken"
             ),
         ));
+        curl_setopt($curl, CURLOPT_TIMEOUT_MS, 5000);
 
         $listPixRecebidos = json_decode(curl_exec($curl), true);
         curl_close($curl);
@@ -122,6 +124,7 @@ class ProccessCurl
                 "authorization: $tokenType $accessToken"
             ),
         ));
+        curl_setopt($curl, CURLOPT_TIMEOUT_MS, 5000);
 
         $response = curl_exec($curl);
 

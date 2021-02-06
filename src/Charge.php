@@ -112,6 +112,9 @@ class Charge
 
         if ($this->getType() === "dinamico") {
             $dadosPix = ProccessCurl::runCurlCharge($pixUrlCob, $this->getCertFile(), $this->getAccessToken(), json_encode($body), $this->getTokenType(), 'PUT');
+            if (empty($dadosPix) || $dadosPix == null) {
+                return self::create();
+            }
         } else {
             $dadosPix = $body;
             $dadosPix["txid"] = $randonIdTransaction;
